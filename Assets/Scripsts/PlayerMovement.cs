@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float movemntSpeed;
     [SerializeField] private bool isAI;
+    [SerializeField] private bool is2ndPlayer;
     [SerializeField] private GameObject ball;
 
     private Rigidbody2D rb;
@@ -14,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
     }
 
 
@@ -31,7 +34,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerControl ()
     {
-        playerMove = new Vector2(0, Input.GetAxisRaw("Vertical"));
+        if (is2ndPlayer)
+        {
+            playerMove = new Vector2(0, Input.GetAxisRaw("Vertical2"));
+        }
+        else
+        {
+            playerMove = new Vector2(0, Input.GetAxisRaw("Vertical"));
+        }
     }
     private void AIControl()
     {
